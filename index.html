@@ -4,93 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./public/css/style.css">
-    <title>CATS MANIA</title>
-
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Funny or Not</title>
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1>Cats Mania</h1>
-        </div>
+        <h1>Funny or Not</h1>
     </header>
 
-    <div class="cover">
-        <form id="search-form">
-            <input id="cat-keyword" type="text" placeholder="Search a cat">
-            <button id="search-form2" id="submit">Find a cat</button>
-        </form>
+    <div class="container">
+        <div class="hero bg-gradient">
+            <h1>Welcome to random jokes generator!</h1>
+            <p>Generate 5 random jokes to share with your friends. Let's see if you're funny or not.</p>
+            <button id="joke-button">GENERATE A JOKE</button>
+            <button id="joke-reset-button">RESET</button>
+        </div>
+        
+        <div class="row">
+            <div class="jokes-list-container">
+                <ul id="jokes-list"></ul>
+                <div style="color:red" id="joke-loader">
+                    Getting a random joke. Please wait.
+                </div>
+            </div>
+            <div id="status-container">
+                <div id="status">
+                    <h3>Let's see if it is your funny day or not.</h3>
+                    <div id="reaction"></div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-
-
-    <img src="public/img/cat.gif" alt="cat-image" id="cat-gif1">
-    <div id="catCnt">
-    </div>
-    <script src="./public/js/jquery.min.js"></script>
-    <script>
-        // We intialize jQuery here
-        var output = ""
-
-        $(function(){
-            // Try to cache your selectors as posible
-            // Here's a sample :
-            var searchForm = $('#search-form');
-            var searchForm2 = $('#search-form2');
-            var catKeyword = $('#cat-keyword');
-            var catGif1 = $('#cat-gif1');
-            var catCont = $('#catCnt');
-            //These are the variables we need to request from the API
-            var API_URL = 'https://api.thecatapi.com/v1/breeds/search?q=';
-            var API_KEY = 'bd38af4d-fba6-4d1f-bbfd-a98cc4e036d1';
-
-            //Trigger submit form
-            searchForm.on('submit', function(e){
-                e.preventDefault();
-
-                $(searchForm2).attr('disabled', true);
-                catGif1.show();    
-                catCont.hide();  
-                console.log("Asdasd");
-                $.ajax({
-                        method: 'GET',
-                        url: API_URL + catKeyword.val(),
-                        headers:{
-                            'x-api-key' : API_KEY
-                        }
-                    }).then(function(data){
-                        console.log(data);
-                        catGif1.attr("src","public/img/cat2.gif")
-                        if(data.length > 0){
-                            data.forEach(function(element, index){
-                            console.log(element.weight);
-                            console.log(index);
-                            output += `<div class="cat-box">
-                                            <h2>${element.name}</h2>
-                                            <hr>
-                                            <br>
-                                            <h4>${element.origin}</h4>
-                                            <br>
-                                            <h4>${element.description}</h4>
-                                            <br>
-                                            <a href="${element.wikipedia_url}">Search on wikipedia</a>
-                                       </div>`;
-                        });
-                        }else{
-                            output = "<h3>No results found</h3>"
-                        }
-                     }).then(function(){
-                         setTimeout(showpanel, 3000);
-                     });
-        function showpanel(){
-            catGif1.hide();    
-            catCont.html(output);
-            catCont.show();
-            output = "";
-            $(searchForm2).attr('disabled', false);
-            catKeyword.val("");
-        }
-            })
-        })
-    </script>
+    
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/constants.js"></script>
+    <script src="./js/service.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>
